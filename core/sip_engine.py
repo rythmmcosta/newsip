@@ -31,15 +31,23 @@ class Call(pj.Call):
                 m = self.getMedia(i)
                 am = pj.AudioMedia.typecastFromMedia(m)
                 # Connect call audio to sound device
-                pj.Lib.instance().audDevManager().getCaptureDevMedia().startTransmit(am)
-                am.startTransmit(pj.Lib.instance().audDevManager().getPlaybackDevMedia())
+                pj.Endpoint.instance().audDevManager().getCaptureDevMedia().startTransmit(am)
+                am.startTransmit(pj.Endpoint.instance().audDevManager().getPlaybackDevMedia())
 
 class SipEngine:
     def __init__(self):
-        self.lib = pj.Lib()
-        self.lib.init(uaConfig=pj.UaConfig(), logConfig=pj.LogConfig())
-        self.lib.createTransport(pj.PJSIP_TRANSPORT_UDP, pj.TransportConfig())
-        self.lib.start()
+        self.endpoint = pj.Endpoint()
+        self.endpoint.libCreate()
+        
+        ua_cfg = pj.EpConfig()
+        ua_cfg.uaConfig.userAgent = "NewSIP"
+        self.endpoint.libInit(ua_cfg)
+        
+        tp_cfg = pj.TransportConfig()
+        tp_cfg.port = 5060
+        self.endpoint.transportCreate(pj.PJSIP_TRANSPORT_UDP, tp_cfg)
+        
+        self.endpoint.libStart()
         
         self.acc = None
         self.current_call = None
@@ -74,4 +82,4 @@ class SipEngine:
             self.current_call = None
 
     def __del__(self):
-        self.lib.destroy()
+        self.endpoint.libDestroy()
