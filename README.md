@@ -28,7 +28,8 @@ The app runs a local API server on `http://127.0.0.1:8000`.
 3. Download the **NewSIP-Windows** artifact.
 4. Run `NewSIP.exe`.
 
-## Development
+## Version
+1.0.1 (Triggered Build)
 - Required: Python 3.10+
 - Install dependencies: `pip install -r requirements.txt`
 - Run: `python main.py`
