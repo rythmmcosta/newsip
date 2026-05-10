@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+pjsua2-pybind11
+PyQt5
+pyinstaller
+websockets
+python-dotenv
